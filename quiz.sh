@@ -83,6 +83,10 @@ function xuat_de_thi() {
         sed -n "$line_num,+4p" "$FILE_CAUHOI"
         echo -e "\nNhập câu trả lời của bạn (a, b, c, d): "
         read answer
+        while [[ ! "$answer" =~ ^[a-dA-D]$ ]]; do
+            echo "❌ Chỉ được nhập a, b, c hoặc d! Vui lòng nhập lại:"
+            read answer
+        done
         user_answers[$line_num]=$(echo "$answer" | tr 'A-Z' 'a-z')  # Chuyển input thành chữ thường
         echo "--------------------------------------"
     done
@@ -134,6 +138,11 @@ function xuat_de_thi_co_cau_moi() {
         sed -n "$line_num,+4p" "$FILE_CAUHOI"
         echo -e "\nNhập câu trả lời của bạn (a, b, c, d): "
         read answer
+        # ✅ THÊM KIỂM TRA HỢP LỆ TẠI ĐÂY
+        while [[ ! "$answer" =~ ^[a-dA-D]$ ]]; do
+            echo "❌ Chỉ được nhập a, b, c hoặc d! Vui lòng nhập lại:"
+            read answer
+        done
         user_answers[$line_num]=$(echo "$answer" | tr 'A-Z' 'a-z')  # Chuyển input thành chữ thường
         echo "--------------------------------------"
     done
