@@ -54,6 +54,12 @@ function them_cau_hoi() {
     echo "Nhập đáp án đúng (a, b, c, d):"
     read dap_an
 
+# Ràng buộc chỉ cho phép nhập a, b, c, d
+while [[ ! "$dap_an" =~ ^[a-dA-D]$ ]]; do
+    echo "Chỉ được nhập a, b, c, hoặc d. Nhập lại:"
+    read dap_an
+done
+
     # Thêm câu hỏi vào file Cauhoi.txt
     echo "$new_num. $cauhoi" >> "$FILE_CAUHOI"
     echo "a. $dapan_a" >> "$FILE_CAUHOI"
@@ -81,10 +87,22 @@ function xuat_de_thi() {
     for line_num in $selected_questions; do
         # Hiển thị câu hỏi và 4 đáp án
         sed -n "$line_num,+4p" "$FILE_CAUHOI"
-        echo -e "\nNhập câu trả lời của bạn (a, b, c, d): "
+        while true; do
+    echo -e "\nNhập câu trả lời của bạn (a, b, c, d): "
+    read answer
+    while [[ ! "$answer" =~ ^[a-dA-D]$ ]]; do
+        echo "Chỉ được nhập a, b, c hoặc d! Vui lòng nhập lại:"
         read answer
-        user_answers[$line_num]=$(echo "$answer" | tr 'A-Z' 'a-z')  # Chuyển input thành chữ thường
-        echo "--------------------------------------"
+    done
+
+    echo "Bạn vừa chọn: $answer. Xác nhận? (y/n)"
+    read confirm
+    if [[ "$confirm" =~ ^[yY]$ ]]; then
+        break
+    fi
+done
+user_answers[$line_num]=$(echo "$answer" | tr 'A-Z' 'a-z')  # Chuyển input thành chữ thường
+echo "--------------------------------------"
     done
 
     echo -e "\nKết quả chấm điểm:"
@@ -132,10 +150,22 @@ function xuat_de_thi_co_cau_moi() {
     for line_num in $selected_questions; do
         # Hiển thị câu hỏi và 4 đáp án
         sed -n "$line_num,+4p" "$FILE_CAUHOI"
-        echo -e "\nNhập câu trả lời của bạn (a, b, c, d): "
+        while true; do
+    echo -e "\nNhập câu trả lời của bạn (a, b, c, d): "
+    read answer
+    while [[ ! "$answer" =~ ^[a-dA-D]$ ]]; do
+        echo "Chỉ được nhập a, b, c hoặc d! Vui lòng nhập lại:"
         read answer
-        user_answers[$line_num]=$(echo "$answer" | tr 'A-Z' 'a-z')  # Chuyển input thành chữ thường
-        echo "--------------------------------------"
+    done
+
+    echo "Bạn vừa chọn: $answer. Xác nhận? (y/n)"
+    read confirm
+    if [[ "$confirm" =~ ^[yY]$ ]]; then
+        break
+    fi
+done
+user_answers[$line_num]=$(echo "$answer" | tr 'A-Z' 'a-z')  # Chuyển input thành chữ thường
+echo "--------------------------------------"
     done
 
     echo -e "\nKết quả chấm điểm:"
